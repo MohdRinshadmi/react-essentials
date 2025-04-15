@@ -1,12 +1,17 @@
+import { useState } from "react";
 import { CORE_CONCEPTS } from "../Data.js";
 import CoreConcept from "./components/CoreConcepts.jsx";
 import Header from "./components/Header/Header.jsx";
 import TabButton from "./components/TabButton.jsx";
+import { EXAMPLES } from "../Data.js";
 
 function App() {
+  const [selectedTopic, setSelectedTopic] = useState(); // only call hooks inside of component functions and on the top level.
+
   function handleClick(selectedButton) {
     // clickButton -> "Components", 'jsx', 'props', 'state';
-    console.log(selectedButton);
+    setSelectedTopic(selectedButton);
+    console.log(selectedTopic);
   }
 
   return (
@@ -34,12 +39,26 @@ function App() {
         <section id="examples">
           <h2>Examples</h2>
           <menu>
-            <TabButton onClick={() => handleClick('components')}>Components</TabButton>
-            <TabButton onClick={() => handleClick('jsx')}>JSX</TabButton>
-            <TabButton onClick={() => handleClick('props')}>Props</TabButton>
-            <TabButton onClick={() => handleClick('state')}>State</TabButton>
+            <TabButton onClick={() => handleClick("components")}>
+              Components
+            </TabButton>
+            <TabButton onClick={() => handleClick("jsx")}>JSX</TabButton>
+            <TabButton onClick={() => handleClick("props")}>Props</TabButton>
+            <TabButton onClick={() => handleClick("state")}>State</TabButton>
           </menu>
           {/* Dynamic Content */}
+            {!selectedTopic ?  <p>Please select a topic.</p> : null}
+          {selectedTopic &&
+          <div id="tab-content">
+          <h3>{EXAMPLES[selectedTopic]?.title}</h3>
+          <p>{EXAMPLES[selectedTopic]?.description}</p>
+          <pre>
+            <code>{EXAMPLES[selectedTopic]?.code}</code>
+          </pre>
+        </div>
+          
+          }
+          {/* {selectedTopic} */}
         </section>
       </main>
     </div>
